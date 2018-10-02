@@ -1,2 +1,2 @@
-# mpp-dotnet-faker
-Task #2 of MPP
+# Faker
+[Task #2](https://labs.ishimko.me/mpp-dotnet/2-faker) of MPP
