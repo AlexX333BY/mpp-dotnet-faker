@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Faker.ValueGenerators
+namespace Faker.ValueGenerators.CharGeneratorPlugin
 {
     public class CharValueGenerator : IValueGenerator
     {
