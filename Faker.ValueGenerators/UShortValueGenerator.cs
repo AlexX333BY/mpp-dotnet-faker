@@ -2,7 +2,7 @@
 
 namespace Faker.ValueGenerators.BaseTypesGenerators
 {
-    public class UShortValueGenerator : IValueGenerator
+    public class UShortValueGenerator : IBaseTypeGenerator
     {
         public Type GeneratedType
         { get; protected set; }

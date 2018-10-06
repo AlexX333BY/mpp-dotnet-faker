@@ -47,6 +47,7 @@
     <Compile Include="DoubleValueGenerator.cs" />
     <Compile Include="FloatValueGenerator.cs" />
     <Compile Include="IntValueGenerator.cs" />
+    <Compile Include="IBaseTypeGenerator.cs" />
     <Compile Include="IValueGenerator.cs" />
     <Compile Include="LongValueGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -2,7 +2,7 @@
 
 namespace Faker.ValueGenerators.StringGeneratorPlugin
 {
-    public class StringValueGenerator : IValueGenerator
+    public class StringValueGenerator : IBaseTypeGenerator
     {
         public Type GeneratedType
         { get; protected set; }
