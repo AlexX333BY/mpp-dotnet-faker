@@ -44,6 +44,7 @@
     <Compile Include="ArrayGenerator.cs" />
     <Compile Include="BoolValueGenerator.cs" />
     <Compile Include="ByteValueGenerator.cs" />
+    <Compile Include="DateTimeValueGenerator.cs" />
     <Compile Include="DecimalValueGenerator.cs" />
     <Compile Include="DoubleValueGenerator.cs" />
     <Compile Include="FloatValueGenerator.cs" />
