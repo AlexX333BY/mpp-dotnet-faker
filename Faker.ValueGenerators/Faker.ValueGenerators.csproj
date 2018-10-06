@@ -46,6 +46,7 @@
     <Compile Include="DecimalValueGenerator.cs" />
     <Compile Include="DoubleValueGenerator.cs" />
     <Compile Include="FloatValueGenerator.cs" />
+    <Compile Include="IGenericTypeGenerator.cs" />
     <Compile Include="IntValueGenerator.cs" />
     <Compile Include="IBaseTypeGenerator.cs" />
     <Compile Include="IValueGenerator.cs" />
