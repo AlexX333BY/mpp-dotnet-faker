@@ -1,7 +1,10 @@
-﻿namespace Faker.ValueGenerators
+﻿using System;
+
+namespace Faker.ValueGenerators
 {
-    public interface IValueGenerator<T>
+    public interface IValueGenerator
     {
-        T Generate();
+        object Generate();
+        Type GeneratedType { get; }
     }
 }
