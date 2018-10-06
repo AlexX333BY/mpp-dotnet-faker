@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Faker.ValueGenerators
+namespace Faker.ValueGenerators.BaseTypesGenerators
 {
     public class BoolValueGenerator : IValueGenerator
     {
