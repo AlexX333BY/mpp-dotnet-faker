@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArrayGenerator.cs" />
     <Compile Include="BoolValueGenerator.cs" />
     <Compile Include="ByteValueGenerator.cs" />
     <Compile Include="DecimalValueGenerator.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="IntValueGenerator.cs" />
     <Compile Include="IBaseTypeGenerator.cs" />
     <Compile Include="IValueGenerator.cs" />
+    <Compile Include="ListGenerator.cs" />
     <Compile Include="LongValueGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SByteValueGenerator.cs" />
