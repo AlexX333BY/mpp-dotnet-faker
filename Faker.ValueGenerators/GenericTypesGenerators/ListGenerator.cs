@@ -9,6 +9,7 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
     {
         public Type GeneratedType
         { get; protected set; }
+        protected readonly ByteValueGenerator byteValueGenerator;
 
         protected IDictionary<Type, IBaseTypeGenerator> BaseTypesGenerators
         { get; set; }
@@ -19,7 +20,7 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
 
             if (BaseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
             {
-                byte listSize = (byte)new ByteValueGenerator().Generate();
+                byte listSize = (byte)byteValueGenerator.Generate();
 
                 for (int i = 0; i < listSize; i++)
                 {
@@ -33,6 +34,7 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
         {
             GeneratedType = typeof(List<>);
             BaseTypesGenerators = baseTypeGenerators;
+            byteValueGenerator = new ByteValueGenerator();
         }
     }
 }
