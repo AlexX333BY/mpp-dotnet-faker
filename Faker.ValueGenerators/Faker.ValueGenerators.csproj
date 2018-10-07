@@ -41,25 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArrayGenerator.cs" />
-    <Compile Include="BoolValueGenerator.cs" />
-    <Compile Include="ByteValueGenerator.cs" />
-    <Compile Include="DateTimeValueGenerator.cs" />
-    <Compile Include="DecimalValueGenerator.cs" />
-    <Compile Include="DoubleValueGenerator.cs" />
-    <Compile Include="FloatValueGenerator.cs" />
-    <Compile Include="IGenericTypeGenerator.cs" />
-    <Compile Include="IntValueGenerator.cs" />
-    <Compile Include="IBaseTypeGenerator.cs" />
+    <Compile Include="GenericTypesGenerators\ArrayGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\BoolValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\ByteValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\DateTimeValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\DecimalValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\DoubleValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\FloatValueGenerator.cs" />
+    <Compile Include="GenericTypesGenerators\IGenericTypeGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\IntValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\IBaseTypeGenerator.cs" />
     <Compile Include="IValueGenerator.cs" />
-    <Compile Include="ListGenerator.cs" />
-    <Compile Include="LongValueGenerator.cs" />
+    <Compile Include="GenericTypesGenerators\ListGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\LongValueGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SByteValueGenerator.cs" />
-    <Compile Include="ShortValueGenerator.cs" />
-    <Compile Include="UIntValueGenerator.cs" />
-    <Compile Include="ULongValueGenerator.cs" />
-    <Compile Include="UShortValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\SByteValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\ShortValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\UIntValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\ULongValueGenerator.cs" />
+    <Compile Include="BaseTypesGenerators\UShortValueGenerator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
