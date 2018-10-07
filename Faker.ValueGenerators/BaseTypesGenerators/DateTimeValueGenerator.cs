@@ -6,11 +6,11 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
     {
         public Type GeneratedType
         { get; protected set; }
+        protected readonly Random random;
 
         public object Generate()
         {
             /* generated values are limited according to DateTime limitations */
-            Random random = new Random();
             int year = random.Next(1, 10000);
             int month = random.Next(1, 13);
             int day = random.Next(1, DateTime.DaysInMonth(year, month) + 1);
@@ -25,6 +25,7 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
         public DateTimeValueGenerator()
         {
             GeneratedType = typeof(DateTime);
+            random = new Random();
         }
     }
 }

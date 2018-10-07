@@ -6,15 +6,17 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
     {
         public Type GeneratedType
         { get; protected set; }
+        protected readonly Random random;
 
         public object Generate()
         {
-            return (sbyte)new Random().Next();
+            return (sbyte)random.Next();
         }
 
         public SByteValueGenerator()
         {
             GeneratedType = typeof(sbyte);
+            random = new Random();
         }
     }
 }

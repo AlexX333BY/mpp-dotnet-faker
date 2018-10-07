@@ -6,15 +6,17 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
     {
         public Type GeneratedType
         { get; protected set; }
+        protected readonly Random random;
 
         public object Generate()
         {
-            return (ulong)new Random().NextDouble();
+            return (ulong)random.NextDouble();
         }
 
         public ULongValueGenerator()
         {
             GeneratedType = typeof(ulong);
+            random = new Random();
         }
     }
 }
