@@ -54,22 +54,22 @@ namespace Faker
             object generated = Activator.CreateInstance(type);
             IBaseTypeGenerator baseTypeGenerator;
             IGenericTypeGenerator genericTypeGenerator;
-            Type declaringType;
+            Type propertyType;
 
             foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.SetProperty))
             {
-                declaringType = propertyInfo.DeclaringType;
-                if (baseTypesGenerators.TryGetValue(declaringType, out baseTypeGenerator))
+                propertyType = propertyInfo.PropertyType;
+                if (baseTypesGenerators.TryGetValue(propertyType, out baseTypeGenerator))
                 {
                     propertyInfo.SetValue(generated, baseTypeGenerator.Generate());
                 }
-                else if (genericTypesGenerators.TryGetValue(declaringType, out genericTypeGenerator))
+                else if (genericTypesGenerators.TryGetValue(propertyType, out genericTypeGenerator))
                 {
-                    propertyInfo.SetValue(generated, genericTypeGenerator.Generate(declaringType.GenericTypeArguments[0]));
+                    propertyInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
                 }
-                else if (declaringType.IsClass && !generatedTypes.Contains(declaringType))
+                else if (propertyType.IsClass && !generatedTypes.Contains(propertyType))
                 {
-                    generatedTypes.Push(declaringType);
+                    generatedTypes.Push(propertyType);
                     propertyInfo.SetValue(generated, Create(type));
                     generatedTypes.Pop();
                 }
@@ -77,18 +77,18 @@ namespace Faker
 
             foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
             {
-                declaringType = fieldInfo.DeclaringType;
-                if (baseTypesGenerators.TryGetValue(declaringType, out baseTypeGenerator))
+                propertyType = fieldInfo.FieldType;
+                if (baseTypesGenerators.TryGetValue(propertyType, out baseTypeGenerator))
                 {
                     fieldInfo.SetValue(generated, baseTypeGenerator.Generate());
                 }
-                else if (genericTypesGenerators.TryGetValue(declaringType, out genericTypeGenerator))
+                else if (genericTypesGenerators.TryGetValue(propertyType, out genericTypeGenerator))
                 {
-                    fieldInfo.SetValue(generated, genericTypeGenerator.Generate(declaringType.GenericTypeArguments[0]));
+                    fieldInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
                 }
-                else if (declaringType.IsClass && !generatedTypes.Contains(declaringType))
+                else if (propertyType.IsClass && !generatedTypes.Contains(propertyType))
                 {
-                    generatedTypes.Push(declaringType);
+                    generatedTypes.Push(propertyType);
                     fieldInfo.SetValue(generated, Create(type));
                     generatedTypes.Pop();
                 }
@@ -132,7 +132,7 @@ namespace Faker
             : this(defaultPluginsPath)
         { }
 
-        public Faker(String pluginsPath)
+        public Faker(string pluginsPath)
         {
             IBaseTypeGenerator pluginGenerator;
 
@@ -147,7 +147,7 @@ namespace Faker
                 {
                     try
                     {
-                        assemblies.Add(Assembly.LoadFile(file));
+                        assemblies.Add(Assembly.LoadFile(new FileInfo(file).FullName));
                     }
                     catch (BadImageFormatException)
                     { }
