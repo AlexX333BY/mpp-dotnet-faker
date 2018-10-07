@@ -54,7 +54,7 @@ namespace Faker.ValueGenerators
             return dictionary;
         }
 
-        public static Dictionary<int, IArrayGenerator> CreateArrayGenerator(Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
+        public static Dictionary<int, IArrayGenerator> CreateArraysGeneratorsDictionary(Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
         {
             var dictionary = new Dictionary<int, IArrayGenerator>();
             IArrayGenerator generator;

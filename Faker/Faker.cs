@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Faker.ValueGenerators.BaseTypesGenerators;
 using Faker.ValueGenerators.GenericTypesGenerators;
+using Faker.ValueGenerators.GenericTypesGenerators.ArraysGenerators;
 using Faker.ValueGenerators;
 using System.IO;
 
@@ -12,6 +13,7 @@ namespace Faker
     {
         protected Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators;
         protected Dictionary<Type, IGenericTypeGenerator> genericTypesGenerators;
+        protected Dictionary<int, IArrayGenerator> arraysGenerators;
         protected Stack<Type> generatedTypes;
 
         protected const string defaultPluginsPath = "Plugins";
@@ -54,43 +56,60 @@ namespace Faker
             object generated = Activator.CreateInstance(type);
             IBaseTypeGenerator baseTypeGenerator;
             IGenericTypeGenerator genericTypeGenerator;
-            Type propertyType;
+            IArrayGenerator arrayGenerator;
+            Type propertyType, fieldType;
 
-            foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.SetProperty))
+            foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
+            {
+                fieldType = fieldInfo.FieldType;
+                if (baseTypesGenerators.TryGetValue(fieldType, out baseTypeGenerator))
+                {
+                    fieldInfo.SetValue(generated, baseTypeGenerator.Generate());
+                }
+                else if (fieldType.IsGenericType && genericTypesGenerators.TryGetValue(fieldType, out genericTypeGenerator))
+                {
+                    fieldInfo.SetValue(generated, genericTypeGenerator.Generate(fieldType.GenericTypeArguments[0]));
+                }
+                else if (fieldType.IsArray && arraysGenerators.TryGetValue(fieldType.GetArrayRank(), out arrayGenerator))
+                {
+                    fieldInfo.SetValue(generated, arrayGenerator.Generate(fieldType.GetElementType()));
+                }
+                else if (fieldType.IsClass && !fieldType.IsGenericType && !fieldType.IsArray && !generatedTypes.Contains(fieldType))
+                {
+                    generatedTypes.Push(fieldType);
+                    fieldInfo.SetValue(generated, Create(fieldType));
+                    generatedTypes.Pop();
+                }
+                else
+                {
+                    fieldInfo.SetValue(generated, Activator.CreateInstance(fieldType));
+                }
+            }
+
+            foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.SetProperty))
             {
                 propertyType = propertyInfo.PropertyType;
                 if (baseTypesGenerators.TryGetValue(propertyType, out baseTypeGenerator))
                 {
                     propertyInfo.SetValue(generated, baseTypeGenerator.Generate());
                 }
-                else if (genericTypesGenerators.TryGetValue(propertyType.GetGenericTypeDefinition(), out genericTypeGenerator))
+                else if (propertyType.IsGenericType && genericTypesGenerators.TryGetValue(propertyType.GetGenericTypeDefinition(), out genericTypeGenerator))
                 {
                     propertyInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
                 }
-                else if (propertyType.IsClass && !propertyType.IsGenericType && !generatedTypes.Contains(propertyType))
+                else if (propertyType.IsArray && arraysGenerators.TryGetValue(propertyType.GetArrayRank(), out arrayGenerator))
+                {
+                    propertyInfo.SetValue(generated, arrayGenerator.Generate(propertyType.GetElementType()));
+                }
+                else if (propertyType.IsClass && !propertyType.IsGenericType && !propertyType.IsArray && !generatedTypes.Contains(propertyType))
                 {
                     generatedTypes.Push(propertyType);
                     propertyInfo.SetValue(generated, Create(propertyType));
                     generatedTypes.Pop();
                 }
-            }
-
-            foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public))
-            {
-                propertyType = fieldInfo.FieldType;
-                if (baseTypesGenerators.TryGetValue(propertyType, out baseTypeGenerator))
+                else
                 {
-                    fieldInfo.SetValue(generated, baseTypeGenerator.Generate());
-                }
-                else if (genericTypesGenerators.TryGetValue(propertyType, out genericTypeGenerator))
-                {
-                    fieldInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
-                }
-                else if (propertyType.IsClass && !propertyType.IsGenericType && !generatedTypes.Contains(propertyType))
-                {
-                    generatedTypes.Push(propertyType);
-                    fieldInfo.SetValue(generated, Create(propertyType));
-                    generatedTypes.Pop();
+                    propertyInfo.SetValue(generated, Activator.CreateInstance(propertyType));
                 }
             }
 
@@ -109,11 +128,15 @@ namespace Faker
                 {
                     parametersValues.Add(baseTypeGenerator.Generate());
                 }
-                else if (genericTypesGenerators.TryGetValue(parameterType, out IGenericTypeGenerator genericTypeGenerator))
+                else if (parameterType.IsGenericType && genericTypesGenerators.TryGetValue(parameterType, out IGenericTypeGenerator genericTypeGenerator))
                 {
                     parametersValues.Add(genericTypeGenerator.Generate(parameterType.GenericTypeArguments[0]));
                 }
-                else if (parameterType.IsClass && !parameterType.IsGenericType && !generatedTypes.Contains(parameterType))
+                else if (parameterType.IsArray && arraysGenerators.TryGetValue(parameterType.GetArrayRank(), out IArrayGenerator arrayGenerator))
+                {
+                    parametersValues.Add(arrayGenerator.Generate(parameterType.GetElementType()));
+                }
+                else if (parameterType.IsClass && !parameterType.IsGenericType && !parameterType.IsArray && !generatedTypes.Contains(parameterType))
                 {
                     generatedTypes.Push(parameterType);
                     parametersValues.Add(Create(parameterType));
@@ -139,6 +162,7 @@ namespace Faker
             generatedTypes = new Stack<Type>();
             baseTypesGenerators = GeneratorsSetCreator.CreateBaseTypesGeneratorsDictionary();
             genericTypesGenerators = GeneratorsSetCreator.CreateGenericTypesGeneratorsDictionary(baseTypesGenerators);
+            arraysGenerators = GeneratorsSetCreator.CreateArraysGeneratorsDictionary(baseTypesGenerators);
 
             List<Assembly> assemblies = new List<Assembly>();
             try
