@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Faker.ValueGenerators.BaseTypesGenerators;
 
-namespace Faker.ValueGenerators.GenericTypesGenerators
+namespace Faker.ValueGenerators.GenericTypesGenerators.ArraysGenerators
 {
-    public class ArrayGenerator : IGenericTypeGenerator
+    public class SingleRankArrayGenerator : IArrayGenerator
     {
         public Type GeneratedType
         { get; protected set; }
@@ -12,6 +12,9 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
 
         protected IDictionary<Type, IBaseTypeGenerator> BaseTypesGenerators
         { get; set; }
+
+        public int ArrayRank
+        { get; protected set; }
 
         public object Generate(Type baseType)
         {
@@ -31,11 +34,12 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
             }
         }
 
-        public ArrayGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypeGenerators)
+        public SingleRankArrayGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypeGenerators)
         {
             GeneratedType = typeof(Array);
             BaseTypesGenerators = baseTypeGenerators;
             byteValueGenerator = new ByteValueGenerator();
+            ArrayRank = 1;
         }
     }
 }

@@ -42,13 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GeneratorsSetCreator.cs" />
-    <Compile Include="GenericTypesGenerators\ArrayGenerator.cs" />
+    <Compile Include="GenericTypesGenerators\ArraysGenerators\SingleRankArrayGenerator.cs" />
     <Compile Include="BaseTypesGenerators\BoolValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\ByteValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\DateTimeValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\DecimalValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\DoubleValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\FloatValueGenerator.cs" />
+    <Compile Include="GenericTypesGenerators\ArraysGenerators\IArrayGenerator.cs" />
     <Compile Include="GenericTypesGenerators\IGenericTypeGenerator.cs" />
     <Compile Include="BaseTypesGenerators\IntValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\IBaseTypeGenerator.cs" />

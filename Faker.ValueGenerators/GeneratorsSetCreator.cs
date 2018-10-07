@@ -47,12 +47,15 @@ namespace Faker.ValueGenerators
             var dictionary = new Dictionary<Type, IGenericTypeGenerator>();
             IGenericTypeGenerator generator;
 
-            generator = new ArrayGenerator(baseTypesGenerators);
-            dictionary.Add(generator.GeneratedType, generator);
             generator = new ListGenerator(baseTypesGenerators);
             dictionary.Add(generator.GeneratedType, generator);
 
             return dictionary;
+        }
+
+        public static IGenericTypeGenerator CreateArrayGenerator(Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
+        {
+            return new ArrayGenerator(baseTypesGenerators);
         }
     }
 }
