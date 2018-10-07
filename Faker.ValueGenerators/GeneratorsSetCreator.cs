@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Faker.ValueGenerators.BaseTypesGenerators;
 using Faker.ValueGenerators.GenericTypesGenerators;
+using Faker.ValueGenerators.GenericTypesGenerators.ArraysGenerators;
 
 namespace Faker.ValueGenerators
 {
@@ -53,9 +54,15 @@ namespace Faker.ValueGenerators
             return dictionary;
         }
 
-        public static IGenericTypeGenerator CreateArrayGenerator(Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
+        public static Dictionary<int, IArrayGenerator> CreateArrayGenerator(Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
         {
-            return new ArrayGenerator(baseTypesGenerators);
+            var dictionary = new Dictionary<int, IArrayGenerator>();
+            IArrayGenerator generator;
+
+            generator = new SingleRankArrayGenerator(baseTypesGenerators);
+            dictionary.Add(generator.ArrayRank, generator);
+
+            return dictionary;
         }
     }
 }
