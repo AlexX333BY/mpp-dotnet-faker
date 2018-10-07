@@ -96,8 +96,33 @@ namespace Faker
 
         protected object CreateByConstructor(Type type, ConstructorInfo constructor)
         {
-            // TO BE IMPLEMENTED
-            throw new NotImplementedException();
+            Type parameterType;
+            var parametersValues = new List<object>();
+
+            foreach (ParameterInfo parameterInfo in constructor.GetParameters())
+            {
+                parameterType = parameterInfo.ParameterType;
+                if (baseTypesGenerators.TryGetValue(parameterType, out IBaseTypeGenerator baseTypeGenerator))
+                {
+                    parametersValues.Add(baseTypeGenerator.Generate());
+                }
+                else if (genericTypesGenerators.TryGetValue(parameterType, out IGenericTypeGenerator genericTypeGenerator))
+                {
+                    parametersValues.Add(genericTypeGenerator.Generate(parameterType.GenericTypeArguments[0]));
+                }
+                else if (parameterType.IsClass && !generatedTypes.Contains(parameterType))
+                {
+                    generatedTypes.Push(parameterType);
+                    parametersValues.Add(Create(parameterType));
+                    generatedTypes.Pop();
+                }
+                else
+                {
+                    parametersValues.Add(Activator.CreateInstance(parameterType));
+                }
+            }
+
+            return constructor.Invoke(parametersValues.ToArray());
         }
 
         public Faker()
