@@ -141,17 +141,22 @@ namespace Faker
             genericTypesGenerators = GeneratorsSetCreator.CreateGenericTypesGeneratorsDictionary(baseTypesGenerators);
 
             List<Assembly> assemblies = new List<Assembly>();
-            foreach (string file in Directory.GetFiles(pluginsPath, "*.dll"))
+            try
             {
-                try
+                foreach (string file in Directory.GetFiles(pluginsPath, "*.dll"))
                 {
-                    assemblies.Add(Assembly.LoadFile(file));
+                    try
+                    {
+                        assemblies.Add(Assembly.LoadFile(file));
+                    }
+                    catch (BadImageFormatException)
+                    { }
+                    catch (FileLoadException)
+                    { }
                 }
-                catch (BadImageFormatException)
-                { }
-                catch (FileLoadException)
-                { }
             }
+            catch (DirectoryNotFoundException)
+            { }
 
             foreach (Assembly assembly in assemblies)
             {
