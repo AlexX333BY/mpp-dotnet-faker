@@ -1,4 +1,5 @@
 ﻿using System;
+using Faker.ValueGenerators.BaseTypesGenerators;
 
 namespace Faker.ValueGenerators.StringGeneratorPlugin
 {
