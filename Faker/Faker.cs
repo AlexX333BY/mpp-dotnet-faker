@@ -66,7 +66,7 @@ namespace Faker
                 {
                     fieldInfo.SetValue(generated, baseTypeGenerator.Generate());
                 }
-                else if (fieldType.IsGenericType && genericTypesGenerators.TryGetValue(fieldType, out genericTypeGenerator))
+                else if (fieldType.IsGenericType && genericTypesGenerators.TryGetValue(fieldType.GetGenericTypeDefinition(), out genericTypeGenerator))
                 {
                     fieldInfo.SetValue(generated, genericTypeGenerator.Generate(fieldType.GenericTypeArguments[0]));
                 }
@@ -128,7 +128,7 @@ namespace Faker
                 {
                     parametersValues.Add(baseTypeGenerator.Generate());
                 }
-                else if (parameterType.IsGenericType && genericTypesGenerators.TryGetValue(parameterType, out IGenericTypeGenerator genericTypeGenerator))
+                else if (parameterType.IsGenericType && genericTypesGenerators.TryGetValue(parameterType.GetGenericTypeDefinition(), out IGenericTypeGenerator genericTypeGenerator))
                 {
                     parametersValues.Add(genericTypeGenerator.Generate(parameterType.GenericTypeArguments[0]));
                 }
