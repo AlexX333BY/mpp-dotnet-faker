@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GeneratorsSetCreator.cs" />
     <Compile Include="GenericTypesGenerators\ArrayGenerator.cs" />
     <Compile Include="BaseTypesGenerators\BoolValueGenerator.cs" />
     <Compile Include="BaseTypesGenerators\ByteValueGenerator.cs" />
