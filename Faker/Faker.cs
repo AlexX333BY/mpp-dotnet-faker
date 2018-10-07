@@ -63,14 +63,14 @@ namespace Faker
                 {
                     propertyInfo.SetValue(generated, baseTypeGenerator.Generate());
                 }
-                else if (genericTypesGenerators.TryGetValue(propertyType, out genericTypeGenerator))
+                else if (genericTypesGenerators.TryGetValue(propertyType.GetGenericTypeDefinition(), out genericTypeGenerator))
                 {
                     propertyInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
                 }
-                else if (propertyType.IsClass && !generatedTypes.Contains(propertyType))
+                else if (propertyType.IsClass && !propertyType.IsGenericType && !generatedTypes.Contains(propertyType))
                 {
                     generatedTypes.Push(propertyType);
-                    propertyInfo.SetValue(generated, Create(type));
+                    propertyInfo.SetValue(generated, Create(propertyType));
                     generatedTypes.Pop();
                 }
             }
@@ -86,10 +86,10 @@ namespace Faker
                 {
                     fieldInfo.SetValue(generated, genericTypeGenerator.Generate(propertyType.GenericTypeArguments[0]));
                 }
-                else if (propertyType.IsClass && !generatedTypes.Contains(propertyType))
+                else if (propertyType.IsClass && !propertyType.IsGenericType && !generatedTypes.Contains(propertyType))
                 {
                     generatedTypes.Push(propertyType);
-                    fieldInfo.SetValue(generated, Create(type));
+                    fieldInfo.SetValue(generated, Create(propertyType));
                     generatedTypes.Pop();
                 }
             }
@@ -113,7 +113,7 @@ namespace Faker
                 {
                     parametersValues.Add(genericTypeGenerator.Generate(parameterType.GenericTypeArguments[0]));
                 }
-                else if (parameterType.IsClass && !generatedTypes.Contains(parameterType))
+                else if (parameterType.IsClass && !parameterType.IsGenericType && !generatedTypes.Contains(parameterType))
                 {
                     generatedTypes.Push(parameterType);
                     parametersValues.Add(Create(parameterType));

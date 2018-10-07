@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Faker.ValueGenerators.BaseTypesGenerators;
 
@@ -14,7 +15,7 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
 
         public object Generate(Type baseType)
         {
-            var result = new List<object>();
+            IList result = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(baseType));
 
             if (BaseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
             {
