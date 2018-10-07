@@ -4,6 +4,7 @@ using System.Reflection;
 using Faker.ValueGenerators.BaseTypesGenerators;
 using Faker.ValueGenerators.GenericTypesGenerators;
 using Faker.ValueGenerators;
+using System.IO;
 
 namespace Faker
 {
@@ -12,6 +13,8 @@ namespace Faker
         protected Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators;
         protected Dictionary<Type, IGenericTypeGenerator> genericTypesGenerators;
         protected Stack<Type> generatedTypes;
+
+        protected const string defaultPluginsPath = "Plugins";
 
         public T Create<T>()
         {
@@ -126,10 +129,44 @@ namespace Faker
         }
 
         public Faker()
+            : this(defaultPluginsPath)
+        { }
+
+        public Faker(String pluginsPath)
         {
+            IBaseTypeGenerator pluginGenerator;
+
             generatedTypes = new Stack<Type>();
             baseTypesGenerators = GeneratorsSetCreator.CreateBaseTypesGeneratorsDictionary();
             genericTypesGenerators = GeneratorsSetCreator.CreateGenericTypesGeneratorsDictionary(baseTypesGenerators);
+
+            List<Assembly> assemblies = new List<Assembly>();
+            foreach (string file in Directory.GetFiles(pluginsPath, "*.dll"))
+            {
+                try
+                {
+                    assemblies.Add(Assembly.LoadFile(file));
+                }
+                catch (BadImageFormatException)
+                { }
+                catch (FileLoadException)
+                { }
+            }
+
+            foreach (Assembly assembly in assemblies)
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    foreach (Type typeInterface in type.GetInterfaces())
+                    {
+                        if (typeInterface.Equals(typeof(IBaseTypeGenerator)))
+                        {
+                            pluginGenerator = (IBaseTypeGenerator)Activator.CreateInstance(type);
+                            baseTypesGenerators.Add(pluginGenerator.GeneratedType, pluginGenerator);
+                        }
+                    }
+                }
+            }
         }
     }
 }
