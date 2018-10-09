@@ -37,7 +37,7 @@ namespace Faker
             {
                 return arrayGenerator.Generate(type.GetElementType());
             }
-            else if (type.IsClass && !type.IsGenericType && !type.IsArray && !generatedTypes.Contains(type))
+            else if (type.IsClass && !type.IsGenericType && !type.IsArray && !type.IsPointer && !type.IsAbstract && !generatedTypes.Contains(type))
             {
                 int maxConstructorFieldsCount = 0, curConstructorFieldsCount;
                 ConstructorInfo constructorToUse = null;
@@ -67,13 +67,21 @@ namespace Faker
             }
             else
             {
-                return Activator.CreateInstance(type);
+                try
+                {
+                    return Activator.CreateInstance(type);
+                }
+                catch (MissingMemberException)
+                {
+                    return null;
+                }
             }
         }
 
         protected object CreateByProperties(Type type)
         {
-            object generated = Activator.CreateInstance(type);
+            object generated;
+            generated = Activator.CreateInstance(type);
 
             foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
             {
@@ -97,7 +105,14 @@ namespace Faker
                 parametersValues.Add(Create(parameterInfo.ParameterType));
             }
 
-            return constructor.Invoke(parametersValues.ToArray());
+            try
+            {
+                return constructor.Invoke(parametersValues.ToArray());
+            }
+            catch (TargetInvocationException)
+            {
+                return null;
+            }
         }
 
         public Faker()
