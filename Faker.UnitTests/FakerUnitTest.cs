@@ -7,11 +7,17 @@ namespace Faker.UnitTests
     [TestClass]
     public class FakerUnitTest
     {
+        private Faker faker;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            faker = new Faker();
+        }
+
         [TestMethod]
         public void NullableFieldsTest()
         {
-            Faker faker = new Faker();
-
             NullableFieldsNoConstructor noConstructorObject = faker.Create<NullableFieldsNoConstructor>();
             Assert.AreNotEqual(null, noConstructorObject.dateTimeField);
             Assert.AreNotEqual(null, noConstructorObject.stringField);
@@ -26,8 +32,6 @@ namespace Faker.UnitTests
         [TestMethod]
         public void NullablePropertiesTest()
         {
-            Faker faker = new Faker();
-
             NullablePropertiesNoConstructor noConstructorObject = faker.Create<NullablePropertiesNoConstructor>();
             Assert.AreNotEqual(null, noConstructorObject.ObjectProperty);
             Assert.AreNotEqual(null, noConstructorObject.StringProperty);
@@ -42,8 +46,6 @@ namespace Faker.UnitTests
         [TestMethod]
         public void SelfRecursionTest()
         {
-            Faker faker = new Faker();
-
             SelfRecursiveClassNoConstructor noConstructor = faker.Create<SelfRecursiveClassNoConstructor>();
             Assert.AreEqual(null, noConstructor.innerObject);
             SelfRecursiveClassWithConstructor selfRecursive = faker.Create<SelfRecursiveClassWithConstructor>();
@@ -53,8 +55,6 @@ namespace Faker.UnitTests
         [TestMethod]
         public void IndirectRecursiongTest()
         {
-            Faker faker = new Faker();
-
             IndirectRecursiveClass1 indirectRecursiveObject = faker.Create<IndirectRecursiveClass1>();
             Assert.AreEqual(null, indirectRecursiveObject.InnerObject.InnerObject);
         }
