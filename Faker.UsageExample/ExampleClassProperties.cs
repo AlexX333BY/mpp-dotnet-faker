@@ -19,6 +19,9 @@ namespace Faker.UsageExample
         { get; protected set; }
 
         [DataMember]
+        private readonly int nonPublicIntField;
+
+        [DataMember]
         public List<int> publicList;
 
         [DataMember]

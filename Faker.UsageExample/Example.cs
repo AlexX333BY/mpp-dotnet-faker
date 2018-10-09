@@ -10,15 +10,9 @@ namespace Faker.UsageExample
         {
             Faker faker = new Faker();
 
-            using (var jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Console.OpenStandardOutput(), Encoding.UTF8, ownsStream: true, indent: true))
-            {
-                new DataContractJsonSerializer(typeof(ExampleClassProperties)).WriteObject(jsonWriter, faker.Create<ExampleClassProperties>());
-            }
+            ConsoleJsonSerializer.Serialize(faker.Create<ExampleClassProperties>());
+            ConsoleJsonSerializer.Serialize(faker.Create<ExampleClassConstructor>());
 
-            using (var jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Console.OpenStandardOutput(), Encoding.UTF8, ownsStream: true, indent: true))
-            {
-                new DataContractJsonSerializer(typeof(ExampleClassConstructor)).WriteObject(jsonWriter, faker.Create<ExampleClassConstructor>());
-            }
             Console.ReadKey();
         }
     }

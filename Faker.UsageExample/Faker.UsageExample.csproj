@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleJsonSerializer.cs" />
     <Compile Include="Example.cs" />
     <Compile Include="ExampleClassProperties.cs" />
     <Compile Include="ExampleClassConstructor.cs" />
