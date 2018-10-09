@@ -11,7 +11,7 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
         public object Generate()
         {
             /* generated values are limited according to DateTime limitations */
-            int year = random.Next(1, 10000);
+            int year = random.Next(DateTime.MinValue.Year, DateTime.MaxValue.Year + 1);
             int month = random.Next(1, 13);
             int day = random.Next(1, DateTime.DaysInMonth(year, month) + 1);
             int hour = random.Next(0, 24);
