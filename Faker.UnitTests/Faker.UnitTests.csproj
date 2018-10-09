@@ -49,6 +49,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestClasses\IndirectRecursiveClass1.cs" />
+    <Compile Include="TestClasses\IndirectRecursiveClass2.cs" />
     <Compile Include="TestClasses\NullablePropertiesNoConstructor.cs" />
     <Compile Include="TestClasses\NullableFieldsNoConstructor.cs" />
     <Compile Include="FakerUnitTest.cs" />
