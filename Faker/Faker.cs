@@ -80,8 +80,7 @@ namespace Faker
 
         protected object CreateByProperties(Type type)
         {
-            object generated;
-            generated = Activator.CreateInstance(type);
+            object generated = Activator.CreateInstance(type);
 
             foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
             {
