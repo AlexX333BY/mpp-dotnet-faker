@@ -25,23 +25,24 @@ namespace Faker
 
         protected object Create(Type type)
         {
+            object generated;
+
             if (baseTypesGenerators.TryGetValue(type, out IBaseTypeGenerator baseTypeGenerator))
             {
-                return baseTypeGenerator.Generate();
+                generated = baseTypeGenerator.Generate();
             }
             else if (type.IsGenericType && genericTypesGenerators.TryGetValue(type.GetGenericTypeDefinition(), out IGenericTypeGenerator genericTypeGenerator))
             {
-                return genericTypeGenerator.Generate(type.GenericTypeArguments[0]);
+                generated = genericTypeGenerator.Generate(type.GenericTypeArguments[0]);
             }
             else if (type.IsArray && arraysGenerators.TryGetValue(type.GetArrayRank(), out IArrayGenerator arrayGenerator))
             {
-                return arrayGenerator.Generate(type.GetElementType());
+                generated = arrayGenerator.Generate(type.GetElementType());
             }
             else if (type.IsClass && !type.IsGenericType && !type.IsArray && !type.IsPointer && !type.IsAbstract && !generatedTypes.Contains(type))
             {
                 int maxConstructorFieldsCount = 0, curConstructorFieldsCount;
                 ConstructorInfo constructorToUse = null;
-                object generated;
 
                 foreach (ConstructorInfo constructor in type.GetConstructors())
                 {
@@ -63,16 +64,17 @@ namespace Faker
                     generated = CreateByConstructor(type, constructorToUse);
                 }
                 generatedTypes.Pop();
-                return generated;
             }
             else if (type.IsValueType)
             {
-                return Activator.CreateInstance(type);
+                generated = Activator.CreateInstance(type);
             }
             else
-            { 
-                return null;
+            {
+                generated = null;
             }
+
+            return generated;
         }
 
         protected object CreateByProperties(Type type)
