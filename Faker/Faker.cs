@@ -86,9 +86,12 @@ namespace Faker
                 fieldInfo.SetValue(generated, Create(fieldInfo.FieldType));
             }
 
-            foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.SetProperty))
+            foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
             {
-                propertyInfo.SetValue(generated, Create(propertyInfo.PropertyType));
+                if (propertyInfo.CanWrite)
+                {
+                    propertyInfo.SetValue(generated, Create(propertyInfo.PropertyType));
+                }
             }
 
             return generated;
