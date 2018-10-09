@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.Serialization.Json;
+using System.Text;
 
 namespace Faker.UsageExample
 {
@@ -7,7 +9,16 @@ namespace Faker.UsageExample
         public static void Main(string[] args)
         {
             Faker faker = new Faker();
-            ExampleClass exampleObject = faker.Create<ExampleClass>();
+
+            using (var jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Console.OpenStandardOutput(), Encoding.UTF8, ownsStream: true, indent: true))
+            {
+                new DataContractJsonSerializer(typeof(ExampleClassProperties)).WriteObject(jsonWriter, faker.Create<ExampleClassProperties>());
+            }
+
+            using (var jsonWriter = JsonReaderWriterFactory.CreateJsonWriter(Console.OpenStandardOutput(), Encoding.UTF8, ownsStream: true, indent: true))
+            {
+                new DataContractJsonSerializer(typeof(ExampleClassConstructor)).WriteObject(jsonWriter, faker.Create<ExampleClassConstructor>());
+            }
             Console.ReadKey();
         }
     }
