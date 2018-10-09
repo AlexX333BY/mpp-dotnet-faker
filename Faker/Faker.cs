@@ -65,16 +65,13 @@ namespace Faker
                 generatedTypes.Pop();
                 return generated;
             }
-            else
+            else if (type.IsValueType)
             {
-                try
-                {
-                    return Activator.CreateInstance(type);
-                }
-                catch (MissingMemberException)
-                {
-                    return null;
-                }
+                return Activator.CreateInstance(type);
+            }
+            else
+            { 
+                return null;
             }
         }
 

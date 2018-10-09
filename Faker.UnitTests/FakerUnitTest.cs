@@ -44,10 +44,17 @@ namespace Faker.UnitTests
         {
             Faker faker = new Faker();
 
+            //if declare class with no constructor, default one will be created
             SelfRecursiveClassNoConstructor noConstructor = faker.Create<SelfRecursiveClassNoConstructor>();
-            Assert.AreNotEqual(null, noConstructor.innerObject);
+            Assert.AreEqual(null, noConstructor.innerObject);
             SelfRecursiveClassWithConstructor selfRecursive = faker.Create<SelfRecursiveClassWithConstructor>();
             Assert.AreEqual(null, selfRecursive.innerObject);
+        }
+
+        [TestMethod]
+        public void Test()
+        {
+
         }
     }
 }
