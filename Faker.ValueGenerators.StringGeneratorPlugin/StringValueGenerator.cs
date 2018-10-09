@@ -5,9 +5,10 @@ namespace Faker.ValueGenerators.StringGeneratorPlugin
 {
     public class StringValueGenerator : IBaseTypeGenerator
     {
+        protected readonly Random random;
+
         public Type GeneratedType
         { get; protected set; }
-        protected readonly Random random;
 
         public object Generate()
         {
