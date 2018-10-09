@@ -58,5 +58,26 @@ namespace Faker.UnitTests
             IndirectRecursiveClass1 indirectRecursiveObject = faker.Create<IndirectRecursiveClass1>();
             Assert.AreEqual(null, indirectRecursiveObject.InnerObject.InnerObject);
         }
+
+        [TestMethod]
+        public void ListTest()
+        {
+            ListClass listClass = faker.Create<ListClass>();
+            Assert.AreNotEqual(null, listClass.intList);
+            Assert.AreNotEqual(null, listClass.objectList);
+            Assert.AreEqual(0, listClass.objectList.Count);
+        }
+
+        [TestMethod]
+        public void ArrayTest()
+        {
+            ArrayClass arrayClass = faker.Create<ArrayClass>();
+            Assert.AreNotEqual(null, arrayClass.intSingleDimensionArray);
+            Assert.AreNotEqual(null, arrayClass.objectSingleDimensionArray);
+            Assert.AreEqual(0, arrayClass.objectSingleDimensionArray.Length);
+            Assert.AreNotEqual(null, arrayClass.intJaggedArray);
+            Assert.AreEqual(0, arrayClass.intJaggedArray.Length);
+            Assert.AreEqual(null, arrayClass.intDoubleDimensionArray);
+        }
     }
 }
