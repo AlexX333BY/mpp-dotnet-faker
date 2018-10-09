@@ -120,13 +120,13 @@ namespace Faker
         public Faker(string pluginsPath)
         {
             IBaseTypeGenerator pluginGenerator;
+            List<Assembly> assemblies = new List<Assembly>();
 
             generatedTypes = new Stack<Type>();
             baseTypesGenerators = GeneratorsSetCreator.CreateBaseTypesGeneratorsDictionary();
             genericTypesGenerators = GeneratorsSetCreator.CreateGenericTypesGeneratorsDictionary(baseTypesGenerators);
             arraysGenerators = GeneratorsSetCreator.CreateArraysGeneratorsDictionary(baseTypesGenerators);
 
-            List<Assembly> assemblies = new List<Assembly>();
             try
             {
                 foreach (string file in Directory.GetFiles(pluginsPath, "*.dll"))
