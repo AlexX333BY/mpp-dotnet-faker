@@ -4,9 +4,10 @@ namespace Faker.ValueGenerators.BaseTypesGenerators
 {
     public class FloatValueGenerator : IBaseTypeGenerator
     {
+        protected readonly Random random;
+
         public Type GeneratedType
         { get; protected set; }
-        protected readonly Random random;
 
         public object Generate()
         {

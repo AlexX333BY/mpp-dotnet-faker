@@ -6,19 +6,18 @@ namespace Faker.ValueGenerators.GenericTypesGenerators.ArraysGenerators
 {
     public class SingleRankArrayGenerator : IArrayGenerator
     {
-        public Type GeneratedType
-        { get; protected set; }
+        protected IDictionary<Type, IBaseTypeGenerator> baseTypesGenerators;
         protected readonly ByteValueGenerator byteValueGenerator;
 
-        protected IDictionary<Type, IBaseTypeGenerator> BaseTypesGenerators
-        { get; set; }
+        public Type GeneratedType
+        { get; protected set; }
 
         public int ArrayRank
         { get; protected set; }
 
         public object Generate(Type baseType)
         {
-            if (BaseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
+            if (baseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
             {
                 Array result = Array.CreateInstance(baseType, (byte)byteValueGenerator.Generate());
 
@@ -34,10 +33,10 @@ namespace Faker.ValueGenerators.GenericTypesGenerators.ArraysGenerators
             }
         }
 
-        public SingleRankArrayGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypeGenerators)
+        public SingleRankArrayGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
         {
             GeneratedType = typeof(Array);
-            BaseTypesGenerators = baseTypeGenerators;
+            this.baseTypesGenerators = baseTypesGenerators;
             byteValueGenerator = new ByteValueGenerator();
             ArrayRank = 1;
         }

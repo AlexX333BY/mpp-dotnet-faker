@@ -7,18 +7,17 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
 {
     public class ListGenerator : IGenericTypeGenerator
     {
+        protected readonly ByteValueGenerator byteValueGenerator;
+        protected IDictionary<Type, IBaseTypeGenerator> baseTypesGenerators;
+
         public Type GeneratedType
         { get; protected set; }
-        protected readonly ByteValueGenerator byteValueGenerator;
-
-        protected IDictionary<Type, IBaseTypeGenerator> BaseTypesGenerators
-        { get; set; }
 
         public object Generate(Type baseType)
         {
             IList result = (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(baseType));
 
-            if (BaseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
+            if (baseTypesGenerators.TryGetValue(baseType, out IBaseTypeGenerator baseTypeGenerator))
             {
                 byte listSize = (byte)byteValueGenerator.Generate();
 
@@ -30,10 +29,10 @@ namespace Faker.ValueGenerators.GenericTypesGenerators
             return result;
         }
 
-        public ListGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypeGenerators)
+        public ListGenerator(IDictionary<Type, IBaseTypeGenerator> baseTypesGenerators)
         {
             GeneratedType = typeof(List<>);
-            BaseTypesGenerators = baseTypeGenerators;
+            this.baseTypesGenerators = baseTypesGenerators;
             byteValueGenerator = new ByteValueGenerator();
         }
     }
