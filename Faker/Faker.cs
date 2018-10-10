@@ -14,6 +14,7 @@ namespace Faker
         protected Dictionary<Type, IBaseTypeGenerator> baseTypesGenerators;
         protected Dictionary<Type, IGenericTypeGenerator> genericTypesGenerators;
         protected Dictionary<int, IArrayGenerator> arraysGenerators;
+        protected Dictionary<PropertyInfo, IBaseTypeGenerator> customGenerators;
         protected Stack<Type> generatedTypes;
 
         protected const string defaultPluginsPath = "Plugins";
@@ -162,5 +163,22 @@ namespace Faker
                 }
             }
         }
+
+        public Faker(IFakerConfig config, string pluginsPath)
+            : this(pluginsPath)
+        {
+            if (config == null)
+            {
+                customGenerators = new Dictionary<PropertyInfo, IBaseTypeGenerator>();
+            }
+            else
+            {
+                customGenerators = config.Generators;
+            }
+        }
+
+        public Faker(IFakerConfig config)
+            : this(config, defaultPluginsPath)
+        { }
     }
 }

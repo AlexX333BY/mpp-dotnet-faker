@@ -10,6 +10,11 @@ namespace Faker
     {
         protected Dictionary<PropertyInfo, IBaseTypeGenerator> generators;
 
+        public Dictionary<PropertyInfo, IBaseTypeGenerator> Generators
+        {
+            get => new Dictionary<PropertyInfo, IBaseTypeGenerator>(generators);
+        }
+
         public void Add<TClass, TPropertyType, TGenerator>(Expression<Func<TClass, TPropertyType>> expression)
             where TClass : class
             where TGenerator : IBaseTypeGenerator, new()
