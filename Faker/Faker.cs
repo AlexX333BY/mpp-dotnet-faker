@@ -62,7 +62,7 @@ namespace Faker
                 }
                 else
                 {
-                    generated = CreateByConstructor(constructorToUse);
+                    generated = CreateByConstructor(type, constructorToUse);
                 }
                 generatedTypes.Pop();
             }
@@ -78,33 +78,87 @@ namespace Faker
             return generated;
         }
 
+        protected bool TryCreateByCustomGenerator(PropertyInfo propertyInfo, out object generated)
+        {
+            if (customGenerators.TryGetValue(propertyInfo, out IBaseTypeGenerator generator))
+            {
+                generated = generator.Generate();
+                return true;
+            }
+            else
+            {
+                generated = default(object);
+                return false;
+            }
+        }
+
+        protected bool TryCreateByCustomGenerator(FieldInfo fieldInfo, out object generated)
+        {
+            foreach (KeyValuePair<PropertyInfo, IBaseTypeGenerator> keyValue in customGenerators)
+            {
+                if ((keyValue.Key.Name.ToLower() == fieldInfo.Name.ToLower()) && (keyValue.Key.ReflectedType == fieldInfo.ReflectedType))
+                {
+                    generated = keyValue.Value.Generate();
+                    return true;
+                }
+            }
+            generated = default(object);
+            return false;
+        }
+
+        protected bool TryCreateByCustomGenerator(ParameterInfo parameterInfo, Type type, out object generated)
+        {
+            foreach (KeyValuePair<PropertyInfo, IBaseTypeGenerator> keyValue in customGenerators)
+            {
+                if ((keyValue.Key.Name.ToLower() == parameterInfo.Name.ToLower()) && keyValue.Key.ReflectedType.IsAssignableFrom(type))
+                {
+                    generated = keyValue.Value.Generate();
+                    return true;
+                }
+            }
+            generated = default(object);
+            return false;
+        }
+
         protected object CreateByProperties(Type type)
         {
             object generated = Activator.CreateInstance(type);
 
             foreach (FieldInfo fieldInfo in type.GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
             {
-                fieldInfo.SetValue(generated, Create(fieldInfo.FieldType));
+                if (!TryCreateByCustomGenerator(fieldInfo, out object value))
+                {
+                    value = Create(fieldInfo.FieldType);
+                }
+                fieldInfo.SetValue(generated, value);
             }
 
             foreach (PropertyInfo propertyInfo in type.GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public))
             {
                 if (propertyInfo.CanWrite)
                 {
-                    propertyInfo.SetValue(generated, Create(propertyInfo.PropertyType));
+                    if (!TryCreateByCustomGenerator(propertyInfo, out object value))
+                    {
+                        value = Create(propertyInfo.PropertyType);
+                    }
+                    propertyInfo.SetValue(generated, value);
                 }
             }
 
             return generated;
         }
 
-        protected object CreateByConstructor(ConstructorInfo constructor)
+        protected object CreateByConstructor(Type type, ConstructorInfo constructor)
         {
             var parametersValues = new List<object>();
 
             foreach (ParameterInfo parameterInfo in constructor.GetParameters())
             {
-                parametersValues.Add(Create(parameterInfo.ParameterType));
+                if (!TryCreateByCustomGenerator(parameterInfo, type, out object value))
+                {
+                    value = Create(parameterInfo.ParameterType);
+                }
+                parametersValues.Add(value);
             }
 
             try
