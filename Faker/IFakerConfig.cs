@@ -6,8 +6,8 @@ namespace Faker
 {
     public interface IFakerConfig
     {
-        void Add<T, U, W>(Expression<Func<T, U>> expression)
-            where T : class
-            where W : IBaseTypeGenerator, new();
+        void Add<TClass, TPropertyType, TGenerator>(Expression<Func<TClass, TPropertyType>> expression)
+            where TClass : class
+            where TGenerator : IBaseTypeGenerator, new();
     }
 }
