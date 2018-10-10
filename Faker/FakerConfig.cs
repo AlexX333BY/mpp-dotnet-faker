@@ -14,7 +14,15 @@ namespace Faker
             where TClass : class
             where TGenerator : IBaseTypeGenerator, new()
         {
-            throw new NotImplementedException();
+            Expression expressionBody = expression.Body;
+            if (expressionBody.NodeType == ExpressionType.MemberAccess)
+            {
+                generators.Add((PropertyInfo)((MemberExpression)expressionBody).Member, (IBaseTypeGenerator)Activator.CreateInstance(typeof(TGenerator)));
+            }
+            else
+            {
+                throw new ArgumentException("Illegal expression");
+            }
         }
 
         public FakerConfig()
