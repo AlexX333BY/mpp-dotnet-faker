@@ -171,11 +171,7 @@ namespace Faker
             }
         }
 
-        public Faker()
-            : this(defaultPluginsPath)
-        { }
-
-        public Faker(string pluginsPath)
+        public Faker(string pluginsPath, IFakerConfig config)
         {
             IBaseTypeGenerator pluginGenerator;
             List<Assembly> assemblies = new List<Assembly>();
@@ -184,6 +180,14 @@ namespace Faker
             baseTypesGenerators = GeneratorsSetCreator.CreateBaseTypesGeneratorsDictionary();
             genericTypesGenerators = GeneratorsSetCreator.CreateGenericTypesGeneratorsDictionary(baseTypesGenerators);
             arraysGenerators = GeneratorsSetCreator.CreateArraysGeneratorsDictionary(baseTypesGenerators);
+            if (config == null)
+            {
+                customGenerators = new Dictionary<PropertyInfo, IBaseTypeGenerator>();
+            }
+            else
+            {
+                customGenerators = config.Generators;
+            }
 
             try
             {
@@ -218,21 +222,16 @@ namespace Faker
             }
         }
 
-        public Faker(IFakerConfig config, string pluginsPath)
-            : this(pluginsPath)
-        {
-            if (config == null)
-            {
-                customGenerators = new Dictionary<PropertyInfo, IBaseTypeGenerator>();
-            }
-            else
-            {
-                customGenerators = config.Generators;
-            }
-        }
+        public Faker()
+            : this(defaultPluginsPath, null)
+        { }
+
+        public Faker(string pluginsPath)
+            : this(pluginsPath, null)
+        { }
 
         public Faker(IFakerConfig config)
-            : this(config, defaultPluginsPath)
+            : this(defaultPluginsPath, config)
         { }
     }
 }
