@@ -10,13 +10,10 @@ namespace Faker
     {
         protected Dictionary<PropertyInfo, IBaseTypeGenerator> generators;
 
-        public void Add<T, U, W>(Expression<Func<T, U>> expression) where W : IBaseTypeGenerator
-        {
-            if (!typeof(W).IsClass)
-            {
-                throw new ArgumentException("W should be class type");
-            }
-        }
+        public void Add<T, U, W>(Expression<Func<T, U>> expression)
+            where T : class
+            where W : IBaseTypeGenerator, new()
+        { }
 
         public FakerConfig()
         {
