@@ -54,6 +54,14 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Faker.ValueGenerators.IntCustomGenerator\Faker.ValueGenerators.CustomGenerators.csproj">
+      <Project>{5c329d48-ceee-450a-bb91-c3cfe326965b}</Project>
+      <Name>Faker.ValueGenerators.CustomGenerators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Faker.ValueGenerators\Faker.ValueGenerators.csproj">
+      <Project>{b60b102a-818d-43f1-baf5-1f03afee58d6}</Project>
+      <Name>Faker.ValueGenerators</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Faker\Faker.csproj">
       <Project>{8cb0e27a-a0da-42f2-b69e-9f08debf76f5}</Project>
       <Name>Faker</Name>

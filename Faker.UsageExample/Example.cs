@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.Serialization.Json;
-using System.Text;
+using Faker.ValueGenerators.CustomGenerators;
 
 namespace Faker.UsageExample
 {
@@ -8,7 +7,10 @@ namespace Faker.UsageExample
     {
         public static void Main(string[] args)
         {
-            Faker faker = new Faker();
+            FakerConfig config = new FakerConfig();
+            config.Add<ExampleClassProperties, int, IntNonRandomGenerator>(ex => ex.CustomGeneratorCheckProperty);
+
+            Faker faker = new Faker(config);
 
             ConsoleJsonSerializer.Serialize(faker.Create<ExampleClassProperties>());
             ConsoleJsonSerializer.Serialize(faker.Create<ExampleClassConstructor>());

@@ -14,6 +14,7 @@ namespace Faker.UsageExample
         [DataMember]
         public int PublicIntSetter
         { get; set; }
+
         [DataMember]
         public int NonPublicIntSetter
         { get; protected set; }
@@ -26,6 +27,13 @@ namespace Faker.UsageExample
 
         [DataMember]
         public ExampleClassProperties nestedObject;
+
+        [DataMember]
+        protected int customGeneratorCheckField;
+
+        [DataMember]
+        public int CustomGeneratorCheckProperty
+        { get; set; }
 
         public ExampleClassProperties()
         { }

@@ -5,12 +5,12 @@ namespace Faker.UsageExample
     [DataContract]
     public class ExampleClassConstructor : ExampleClassProperties
     {
-        public ExampleClassConstructor(int intValue, bool boolValue)
+        public ExampleClassConstructor(int intValue, bool boolValue, int customGeneratorCheckProperty)
         {
             PublicIntSetter = intValue;
             publicBoolField = boolValue;
-            NonPublicIntSetter = -intValue;
-            nonPublicBoolField = boolValue;
+            customGeneratorCheckField = customGeneratorCheckProperty;
+            CustomGeneratorCheckProperty = customGeneratorCheckProperty;
         }
     }
 }

@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker.UsageExample", "Faker
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker.UnitTests", "Faker.UnitTests\Faker.UnitTests.csproj", "{5771BD48-36E7-4398-9E48-51C4549D8C48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Faker.ValueGenerators.CustomGenerators", "Faker.ValueGenerators.CustomGenerators\Faker.ValueGenerators.CustomGenerators.csproj", "{5C329D48-CEEE-450A-BB91-C3CFE326965B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{5771BD48-36E7-4398-9E48-51C4549D8C48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5771BD48-36E7-4398-9E48-51C4549D8C48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5771BD48-36E7-4398-9E48-51C4549D8C48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C329D48-CEEE-450A-BB91-C3CFE326965B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C329D48-CEEE-450A-BB91-C3CFE326965B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C329D48-CEEE-450A-BB91-C3CFE326965B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C329D48-CEEE-450A-BB91-C3CFE326965B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
