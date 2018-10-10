@@ -61,7 +61,7 @@ namespace Faker
                 }
                 else
                 {
-                    generated = CreateByConstructor(type, constructorToUse);
+                    generated = CreateByConstructor(constructorToUse);
                 }
                 generatedTypes.Pop();
             }
@@ -97,7 +97,7 @@ namespace Faker
             return generated;
         }
 
-        protected object CreateByConstructor(Type type, ConstructorInfo constructor)
+        protected object CreateByConstructor(ConstructorInfo constructor)
         {
             var parametersValues = new List<object>();
 
