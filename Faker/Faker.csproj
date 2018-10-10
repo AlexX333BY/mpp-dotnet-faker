@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Faker.cs" />
     <Compile Include="IFaker.cs" />
+    <Compile Include="IFakerConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
