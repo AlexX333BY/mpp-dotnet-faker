@@ -2,10 +2,14 @@
 {
     public class CustomGenerationConstructorClass : CustomGenerationPropertyClass
     {
-        public CustomGenerationConstructorClass(int someValue)
+        public int SomeValue2
+        { get; private set; }
+
+        public CustomGenerationConstructorClass(int someValue, int someValue2)
         {
             SomeValue = someValue;
             this.someValue = someValue;
+            SomeValue2 = someValue2;
         }
     }
 }

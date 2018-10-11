@@ -86,6 +86,7 @@ namespace Faker.UnitTests
         {
             IFakerConfig config = new FakerConfig();
             config.Add<CustomGenerationPropertyClass, int, IntNonRandomGenerator>(cl => cl.SomeValue);
+            config.Add<CustomGenerationConstructorClass, int, IntNonRandomGenerator>(cl => cl.SomeValue2);
 
             faker = new Faker(config);
 
@@ -94,8 +95,9 @@ namespace Faker.UnitTests
             Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, propertyClass.someValue);
 
             CustomGenerationConstructorClass constructorClass = faker.Create<CustomGenerationConstructorClass>();
-            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.SomeValue);
-            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.someValue);
+            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.SomeValue2);
+            Assert.AreNotEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.SomeValue);
+            Assert.AreNotEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.someValue);
         }
     }
 }
