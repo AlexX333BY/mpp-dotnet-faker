@@ -5,6 +5,9 @@ namespace Faker.ValueGenerators.CustomGenerators
 {
     public class IntNonRandomGenerator : IBaseTypeGenerator, INonRandomGenerator
     {
+        public static int DefaultGeneratedValue
+        { get => 42; }
+
         public Type GeneratedType
         { get; protected set; }
 
@@ -17,7 +20,7 @@ namespace Faker.ValueGenerators.CustomGenerators
         }
 
         public IntNonRandomGenerator()
-            : this(42)
+            : this(DefaultGeneratedValue)
         { }
 
         public IntNonRandomGenerator(int generatedValue)
