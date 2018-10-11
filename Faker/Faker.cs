@@ -97,7 +97,7 @@ namespace Faker
             foreach (KeyValuePair<PropertyInfo, IBaseTypeGenerator> keyValue in customGenerators)
             {
                 if ((keyValue.Key.Name.ToLower() == fieldInfo.Name.ToLower()) && keyValue.Value.GeneratedType.Equals(fieldInfo.FieldType)
-                    && keyValue.Key.ReflectedType.IsAssignableFrom(fieldInfo.ReflectedType))
+                    && keyValue.Key.ReflectedType.Equals(fieldInfo.ReflectedType))
                 {
                     generated = keyValue.Value.Generate();
                     return true;
@@ -112,7 +112,7 @@ namespace Faker
             foreach (KeyValuePair<PropertyInfo, IBaseTypeGenerator> keyValue in customGenerators)
             {
                 if ((keyValue.Key.Name.ToLower() == parameterInfo.Name.ToLower()) && keyValue.Value.GeneratedType.Equals(parameterInfo.ParameterType)
-                    && keyValue.Key.ReflectedType.IsAssignableFrom(type))
+                    && keyValue.Key.ReflectedType.Equals(type))
                 {
                     generated = keyValue.Value.Generate();
                     return true;
