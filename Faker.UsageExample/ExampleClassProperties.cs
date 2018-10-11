@@ -29,9 +29,6 @@ namespace Faker.UsageExample
         public ExampleClassProperties nestedObject;
 
         [DataMember]
-        protected int customGeneratorCheckField;
-
-        [DataMember]
         public int CustomGeneratorCheckProperty
         { get; set; }
 

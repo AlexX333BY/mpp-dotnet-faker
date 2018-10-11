@@ -9,6 +9,7 @@ namespace Faker.UsageExample
         {
             FakerConfig config = new FakerConfig();
             config.Add<ExampleClassProperties, int, IntNonRandomGenerator>(ex => ex.CustomGeneratorCheckProperty);
+            config.Add<ExampleClassConstructor, int, IntNonRandomGenerator>(ex => ex.CustomGeneratorCheckProperty2);
 
             Faker faker = new Faker(config);
 
