@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Faker.UnitTests.TestClasses;
+using Faker.ValueGenerators.CustomGenerators;
 
 namespace Faker.UnitTests
 {
@@ -78,6 +79,23 @@ namespace Faker.UnitTests
             Assert.AreNotEqual(null, arrayClass.intJaggedArray);
             Assert.AreEqual(0, arrayClass.intJaggedArray.Length);
             Assert.AreEqual(null, arrayClass.intDoubleDimensionArray);
+        }
+
+        [TestMethod]
+        public void CustomGenerationTest()
+        {
+            IFakerConfig config = new FakerConfig();
+            config.Add<CustomGenerationPropertyClass, int, IntNonRandomGenerator>(cl => cl.SomeValue);
+
+            faker = new Faker(config);
+
+            CustomGenerationPropertyClass propertyClass = faker.Create<CustomGenerationPropertyClass>();
+            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, propertyClass.SomeValue);
+            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, propertyClass.someValue);
+
+            CustomGenerationConstructorClass constructorClass = faker.Create<CustomGenerationConstructorClass>();
+            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.SomeValue);
+            Assert.AreEqual(IntNonRandomGenerator.DefaultGeneratedValue, constructorClass.someValue);
         }
     }
 }
