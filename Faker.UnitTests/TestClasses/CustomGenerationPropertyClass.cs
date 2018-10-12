@@ -7,6 +7,9 @@
 
         public int someValue;
 
+        public string SomeString
+        { get; set; }
+
         public CustomGenerationPropertyClass()
         { }
     }

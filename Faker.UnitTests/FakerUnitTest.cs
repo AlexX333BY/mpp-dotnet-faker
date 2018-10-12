@@ -87,6 +87,7 @@ namespace Faker.UnitTests
             IFakerConfig config = new FakerConfig();
             config.Add<CustomGenerationPropertyClass, int, IntNonRandomGenerator>(cl => cl.SomeValue);
             config.Add<CustomGenerationConstructorClass, int, IntNonRandomGenerator>(cl => cl.SomeValue2);
+            Assert.ThrowsException<ArgumentException>(() => config.Add<CustomGenerationPropertyClass, string, IntNonRandomGenerator>(err => err.SomeString));
 
             faker = new Faker(config);
 
